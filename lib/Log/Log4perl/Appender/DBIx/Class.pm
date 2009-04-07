@@ -49,6 +49,12 @@ sub log {
         $self->{level_column} => $p{log4p_level}
     });
 
+    if(defined($self->{other_columns}) && ref($self->{other_columns}) eq 'ARRAY') {
+        foreach my $col (@{ $self->{other_columns}}) {
+            $row->$col($self->{$col});
+        }
+    }
+
     if($self->{datetime_column}) {
         my $accessor = $self->{datetime_column};
         $row->$accessor($self->{datetime_subref}->());
@@ -110,6 +116,30 @@ The column in which to store the Log4perl level.  Defaults to 'level'.
 The column in which to store the Log4perl message.  Defaults to 'message'. In
 case you are wondering (I was), this column WILL received the formatted message
 as defined by the appender's layout.
+
+=item B<other_columns>
+
+This parameter allows you to pass in an arrayref of arbitrary column names.
+At the time the row is created, this arrayref will be iterated over and any
+column names will be set:
+
+  foreach my $col (@{ $self->{column_names}}) {
+      $row->$col($self->{$col});
+  }
+  
+This allows you to specificy arbitrary options when you create the appender
+and have the logged in any rows created.  An example is in order:
+
+  my $appender = Log::Log4perl::Appender->new(
+      'Log::Log4perl::Appender::DBIx::Class',
+      schema => $schema,
+      class => 'Message',
+      user => 'someuser',
+      other_columns => [qw(user)]
+  );
+  
+This will cause any Message objects that are logged to have their C<user>
+column set to 'someuser'.
 
 =back
 
