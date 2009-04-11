@@ -1,52 +1,76 @@
-Log-Log4perl-Appender-DBIx-Class
+NAME
+    Log::Log4perl::Appender::DBIx::Class - appender for DBIx::Class
 
-The README is used to introduce the module and provide instructions on
-how to install the module, any machine dependencies it may have (for
-example C compilers and installed libraries) and any other information
-that should be provided before the module is installed.
+SYNOPSIS
+      my $dbic_appender = Log::Log4perl::Appender->new(
+        'Log::Log4perl::Appender::DBIx::Class',
+        schema => $schema,
+        class => 'Message',
+      );
 
-A README file is required for CPAN modules since CPAN extracts the README
-file from a module distribution so that people browsing the archive
-can use it to get an idea of the module's uses. It is usually a good idea
-to provide version information here so that people can decide whether
-fixes for the module are worth downloading.
+      $log->add_appender($dbic_appender);
 
+      $log->error('Hello!');
 
-INSTALLATION
+DESCRIPTION
+    This is a specialized Log4perl appender that allows you to log to with
+    DBIx::Class. Each appender can use a different (or the same) class and
+    each column is configurable.
 
-To install this module, run the following commands:
+    Note: I wanted this module to operate on an already connected schema,
+    hence it's lack of a config file example. If you want to use it in such
+    a way, patches are welcome!
 
-	perl Makefile.PL
-	make
-	make test
-	make install
+PARAMETERS
+    These can be supplied to Appender's `new' method.
 
-SUPPORT AND DOCUMENTATION
+    class
+        The resultset class to use for logging. Defaults to 'Log'.
 
-After installing, you can find documentation for this module with the
-perldoc command.
+    category_column
+        The column in which to store the Log4perl category. Defaults to
+        'category'.
 
-    perldoc Log::Log4perl::Appender::DBIx::Class
+    level_column
+        The column in which to store the Log4perl level. Defaults to
+        'level'.
 
-You can also look for information at:
+    message_column
+        The column in which to store the Log4perl message. Defaults to
+        'message'. In case you are wondering (I was), this column WILL
+        received the formatted message as defined by the appender's layout.
 
-    RT, CPAN's request tracker
-        http://rt.cpan.org/NoAuth/Bugs.html?Dist=Log-Log4perl-Appender-DBIx-Class
+    other_columns
+        This parameter allows you to pass in an arrayref of arbitrary column
+        names. At the time the row is created, this arrayref will be
+        iterated over and any column names will be set:
 
-    AnnoCPAN, Annotated CPAN documentation
-        http://annocpan.org/dist/Log-Log4perl-Appender-DBIx-Class
+          foreach my $col (@{ $self->{column_names}}) {
+              $row->$col($self->{$col});
+          }
+  
+        This allows you to specificy arbitrary options when you create the
+        appender and have the logged in any rows created. An example is in
+        order:
 
-    CPAN Ratings
-        http://cpanratings.perl.org/d/Log-Log4perl-Appender-DBIx-Class
+          my $appender = Log::Log4perl::Appender->new(
+              'Log::Log4perl::Appender::DBIx::Class',
+              schema => $schema,
+              class => 'Message',
+              user => 'someuser',
+              other_columns => [qw(user)]
+          );
+  
+        This will cause any Message objects that are logged to have their
+        `user' column set to 'someuser'.
 
-    Search CPAN
-        http://search.cpan.org/dist/Log-Log4perl-Appender-DBIx-Class/
+AUTHOR
+    Cory G Watson <gphat@cpan.org>
 
+SEE ALSO
+    Log::Log4perl, DBIx::Class
 
-COPYRIGHT AND LICENCE
-
-Copyright (C) 2009 Cory G Watson
-
-This program is free software; you can redistribute it and/or modify it
-under the same terms as Perl itself.
+LICENSE
+    This library is free software, you can redistribute it and/or modify it
+    under the same terms as Perl itself.
 
