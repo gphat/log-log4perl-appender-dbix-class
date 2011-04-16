@@ -7,7 +7,7 @@ use Carp;
 
 our @ISA = qw(Log::Log4perl::Appender);
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 sub new {
     my $class = shift;
