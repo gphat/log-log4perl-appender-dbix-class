@@ -1,5 +1,7 @@
 package Log::Log4perl::Appender::DBIx::Class;
+
 use strict;
+use warnings;
 
 use Carp;
 
