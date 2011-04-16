@@ -57,6 +57,7 @@ sub log {
         }
     }
 
+    # people should probably use DBIx::Class::TimeStamp instead of this
     if($self->{datetime_column}) {
         my $accessor = $self->{datetime_column};
         $row->$accessor($self->{datetime_subref}->());
