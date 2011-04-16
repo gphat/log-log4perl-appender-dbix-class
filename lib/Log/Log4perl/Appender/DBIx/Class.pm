@@ -14,10 +14,10 @@ sub new {
 
     die 'Must supply a schema' unless(exists($self->{schema}));
 
-    $self->{class} = 'Log' unless(exists($self->{class}));
-    $self->{category_column} = 'category' unless(exists($self->{category_column}));
-    $self->{level_column} = 'level' unless(exists($self->{level_column}));
-    $self->{message_column} = 'message' unless(exists($self->{message_column}));
+    $self->{class}           ||= 'Log';
+    $self->{category_column} ||= 'category';
+    $self->{level_column}    ||= 'level';
+    $self->{message_column}  ||= 'message';
 
     return bless($self, $class);
 }
@@ -126,7 +126,7 @@ column names will be set:
   foreach my $col (@{ $self->{column_names}}) {
       $row->$col($self->{$col});
   }
-  
+
 This allows you to specificy arbitrary options when you create the appender
 and have the logged in any rows created.  An example is in order:
 
@@ -137,7 +137,7 @@ and have the logged in any rows created.  An example is in order:
       user => 'someuser',
       other_columns => [qw(user)]
   );
-  
+
 This will cause any Message objects that are logged to have their C<user>
 column set to 'someuser'.
 
