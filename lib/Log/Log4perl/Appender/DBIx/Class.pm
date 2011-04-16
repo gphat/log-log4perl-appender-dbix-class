@@ -3,7 +3,7 @@ use strict;
 
 use Carp;
 
-use base qw(Log::Log4perl::Appender);
+our @ISA = qw(Log::Log4perl::Appender);
 
 our $VERSION = '0.01';
 
