@@ -12,7 +12,7 @@ sub new {
 
     my $self = { @_ };
 
-    die 'Must suppy a schema' unless(exists($self->{schema}));
+    die 'Must supply a schema' unless(exists($self->{schema}));
 
     $self->{class} = 'Log' unless(exists($self->{class}));
     $self->{category_column} = 'category' unless(exists($self->{category_column}));
