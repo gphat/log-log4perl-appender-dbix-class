@@ -1,7 +1,8 @@
 Revision history for Log-Log4perl-Appender-DBIx-Class
 
 0.02
-        Fix deps, so it will pass tests
+        Add support for passing in an unconnected schema (frew)
+        Fix deps, so it will pass tests (frew)
 
 0.01
         First version, released on an unsuspecting world.

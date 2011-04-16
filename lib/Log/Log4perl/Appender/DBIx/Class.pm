@@ -15,6 +15,11 @@ sub new {
     my $self = { @_ };
 
     die 'Must supply a schema' unless(exists($self->{schema}));
+    unless (ref($self->{schema})) {
+      eval "require $self->{schema}";
+      die "failed to load $self->{schema}: $@" if $@;
+      $self->{schema} = $self->{schema}->connect( $self->{connect_info} );
+    }
 
     $self->{class}           ||= 'Log';
     $self->{category_column} ||= 'category';
@@ -92,15 +97,16 @@ This is a specialized Log4perl appender that allows you to log to with
 DBIx::Class.  Each appender can use a different (or the same) class and
 each column is configurable.
 
-B<Note>: I wanted this module to operate on an already connected schema, hence
-it's lack of a config file example.  If you want to use it in such a way,
-patches are welcome!
-
 =head1 PARAMETERS
 
 These can be supplied to Appender's C<new> method.
 
 =over 4
+
+=item B<schema>
+
+The schema object or class to use.  If a class is passed instead of an object,
+connect will be called with the B<connect_info> passes as connection args.
 
 =item B<class>
 
@@ -109,6 +115,10 @@ The resultset class to use for logging.  Defaults to 'Log'.
 =item B<category_column>
 
 The column in which to store the Log4perl category.  Defaults to 'category'.
+
+=item B<connect_info>
+
+Argument passed to connect if an unconnected schema was passed.
 
 =item B<level_column>
 
