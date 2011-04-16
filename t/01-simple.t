@@ -3,7 +3,6 @@ use warnings;
 
 use lib 't/lib';
 
-use DateTime;
 use Log::Log4perl;
 use Log::Log4perl::Level;
 use Test::More;
