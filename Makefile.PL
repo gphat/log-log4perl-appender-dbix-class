@@ -6,6 +6,7 @@ author   'Cory G Watson <gphat@cpan.org>';
 license  'perl';
 
 build_requires 'Test::More';
+build_requires 'Text::xSV';
 
 requires 'DBIx::Class';
 requires 'Log::Log4perl';

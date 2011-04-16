@@ -1,5 +1,8 @@
 Revision history for Log-Log4perl-Appender-DBIx-Class
 
+0.02
+        Fix deps, so it will pass tests
+
 0.01
         First version, released on an unsuspecting world.
 
