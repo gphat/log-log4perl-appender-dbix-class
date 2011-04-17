@@ -160,6 +160,10 @@ column set to 'someuser'.
 
 Cory G Watson <gphat@cpan.org>
 
+=head1 CONTRIBUTORS
+
+Arthur Axel "fREW" Schmidt
+
 =head1 SEE ALSO
 
 L<Log::Log4perl>, L<DBIx::Class>
